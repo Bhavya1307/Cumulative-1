@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Assignment3.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<!--
+/// <summary>
+/// It will show the search bar to search for a particual teacher.
+/// </summary>
+/// <example>GET Teacher/List</example>
+/// <returns>
+/// List of teachers (firstname and lastname) and the teacher's name which has been searched
+/// </returns> -->
+
+<div id="containerlist">
+    <h2>List of Teachers</h2>
+    <form action="/Teacher/List" method="GET">
+        <input type="text" name="SearchKey" />
+        <input type="submit" value="search" />
+    </form>
+    @foreach (var teacher in Model)
+    {
+        <div class="listitem row">
+            <div class="col-md-12"><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></div>
+        </div>
+    }
+</div>
