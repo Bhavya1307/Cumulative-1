@@ -76,6 +76,17 @@ namespace Assignment3.Controllers
             return Teachers;
         }
 
+        //This Controller Will find the teacher by their id.
+        /// <summary>
+        /// Returns a details of teachers according to the provided id
+        /// </summary>
+        /// <example>GET api/TeacherData/FindTeacher/{id}</example>
+        /// <param name="id">Id of the teacher</param>
+        /// <returns>
+        /// all details of teachers searched for
+        /// </returns>
+
+
         [HttpGet]
         public Teacher FindTeacher(int id)
         {
