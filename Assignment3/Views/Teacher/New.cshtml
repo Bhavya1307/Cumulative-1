@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>New Teacher</h2>
+
+<!--displaying error message-->
+@if (ViewBag.Msg != null)
+{
+    <div>
+        <p style="color:red;">@ViewBag.Msg</p>
+    </div>
+}
+
+<!--Javascript validation-->
+<script>
+    window.onload = function () {
+        var formHandle = document.forms.form;
+
+        formHandle.onsubmit = process;
+        function process() {
+
+            var TeacherFname = document.getElementById("TeacherFname");
+            var TeacherLname = document.getElementById("TeacherLname");
+            var EmployeeNumber = document.getElementById("EmployeeNumber");
+            var HireDate = document.getElementById("HireDate");
+            var Salary = document.getElementById("Salary");
+
+            var TeacherFname1 = document.getElementById("span1");
+            var TeacherLname1 = document.getElementById("span2");
+            var EmployeeNumber1 = document.getElementById("span3");
+            var HireDate1 = document.getElementById("span4");
+            var Salary1 = document.getElementById("span5");
+
+
+            if (TeacherFname.value === "") {
+                TeacherFname1.innerHTML = "*This field is required!";
+                return false;
+            }
+            if (TeacherLname.value === "") {
+                TeacherLname1.innerHTML = "*This field is required!";
+                return false;
+            }
+            if (EmployeeNumber.value === "") {
+                EmployeeNumber1.innerHTML = "*This field is required!";
+                return false;
+            }
+            if (HireDate.value === "") {
+                HireDate1.innerHTML = "*This field is required!";
+                return false;
+            }
+            if (Salary.value === "") {
+                Salary1.innerHTML = "*This field is required!";
+                return false;
+            }
+        }
+    }
+
+</script>
+
+<form method="POST" action="/Teacher/Create" name="form">
+    <div>
+        <label for="TeacherFname">First name:</label>
+        <input type="text" name="TeacherFname" id="TeacherFname" />
+        <span id="span1" style="color:red;"></span>
+    </div>
+    <div>
+        <label for="TeacherLname">Last name:</label>
+        <input type="text" name="TeacherLname" id="TeacherLname" />
+        <span id="span2" style="color:red;"></span>
+    </div>
+    <div>
+        <label for="EmployeeNumber">Employee number:</label>
+        <input type="text" name="EmployeeNumber" id="EmployeeNumber" />
+        <span id="span3" style="color:red;"></span>
+    </div>
+    <div>
+        <label for="HireDate">Hire date:</label>
+        <input type="date" name="HireDate" id="HireDate" />
+        <span id="span4" style="color:red;"></span>
+    </div>
+    <div>
+        <label for="Salary">Salary:</label>
+        <input type="text" name="Salary" id="Salary" />
+        <span id="span5" style="color:red;"></span>
+    </div>
+    <div>
+        <input type="submit" value="Add" />
+    </div>
+
+</form>

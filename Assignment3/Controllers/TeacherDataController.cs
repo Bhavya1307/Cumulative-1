@@ -129,5 +129,79 @@ namespace Assignment3.Controllers
                 return NewTeacher;
         }
 
+        /// <summary>
+        /// It will delete the teacher from the database.
+        /// </summary>
+        /// <param name="id">The ID of a teacher.</param>
+        /// <example>POST : /api/TeacherData/DeleteTeacher/1</example>
+
+        [HttpPost]
+        public void DeleteTeacher(int id)
+        {
+            // Create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            // Open the connection between the web server and database
+            Conn.Open();
+
+            // Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            // SQL QUERY to find teachers by firstname, lastname, hiredate or salary
+            cmd.CommandText = "DELETE FROM teachers where teacherid=@id";
+
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+
+        /// <summary>
+        /// It will add a new teacher to the Database.
+        /// </summary>
+        /// <param name="NewTeacher">An object of Teacher.</param>
+        /// <example>
+        /// POST api/TeacherData/AddTeacher 
+        /// POST DATA
+        /// {
+        ///	"TeacherFname":"Bhavya",
+        ///	"TeacherLname":"Patel",
+        ///	"EmployeeNumber":"T101",
+        ///	"HireDate":"2024-01-01"
+        ///	"Salary": 70.50
+        /// }
+        /// </example>
+        [HttpPost]
+        public void AddTeacher(Teacher NewTeacher)
+        {
+            // Create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            // Open the connection between the web server and database
+            Conn.Open();
+
+            // Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            // SQL QUERY to find teachers by firstname, lastname, hiredate or salary
+            cmd.CommandText = "INSERT INTO teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) VALUES (@TeacherFname,@TeacherLname,@EmployeeNumber,@HireDate,@Salary)";
+
+            cmd.Parameters.AddWithValue("@TeacherFname", NewTeacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", NewTeacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@HireDate", NewTeacher.HireDate);
+            cmd.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
+
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+        }
+        
+
     }
 }
