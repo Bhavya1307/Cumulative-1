@@ -14,8 +14,9 @@
 
 <div id="containershow">
     <nav>
-        <a class="navlink" href="/Teacher/List">Back to Teachers</a>
-        <a class="dellink" style="float: right; color: red; text-decoration: none;" href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete</a>
+        <a href="/Teacher/List">Back to Teachers</a>
+        <a style="float: right; color: red; text-decoration: none;" href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete</a>
+        <a style="margin-left:20px;" href="/Teacher/Update/@Model.TeacherId">Update</a>
     </nav>
     <h2>@Model.TeacherFname @Model.TeacherLname</h2>
     <p>@Model.EmployeeNumber</p>

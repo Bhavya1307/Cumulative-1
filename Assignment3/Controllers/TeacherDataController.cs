@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Assignment3.Models;
 using MySql.Data.MySqlClient;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Assignment3.Controllers
 {
@@ -201,7 +202,89 @@ namespace Assignment3.Controllers
             Conn.Close();
 
         }
-        
+
+        /// <summary>
+        /// Updates the Teacher info in the database
+        /// </summary>
+        /// <param name="id">Id of the teacher</param>
+        /// <param name="TeacherInfo">An object containing all the columns of the table</param>
+        /// <example>
+        /// POST api/TeacherData/UpdateTeacher/1
+        /// FORM DATA / POST DATA / REQUEST DATA
+        /// {
+        /// "TeacherFname":"Alexander",
+        /// "TeacherLname":"Bennet",
+        /// "EmployeeNumber":"T373",
+        /// "HireDate":"2016-08-05",
+        /// "Salary":"55.35"
+        /// }
+        /// </example>
+
+
+        // Show evidence of using a CURL request with a JSON object to update the teacher datathrough the WebAPI instead of the teacher interface.
+        // info.json
+        // {
+        //      "TeacherFname": "Alexander",
+        //      "TeacherLname": "Bennett",
+        //      "EmployeeNumber": "T379",
+        //      "HireDate": "2016-08-05",
+        //      "Salary": "55.35"
+        // }
+
+        // Command prompt:
+        // C:\Users\rdpat\OneDrive\Desktop\Back-end\Assignment3\Assignment3>curl -H "Content-Type:application/json" -d @info.json "http://localhost:54560/api/TeacherData/UpdateTeacher/1"
+
+        // C:\Users\rdpat\OneDrive\Desktop\Back-end\Assignment3\Assignment3>
+
+        // Output on browser:
+        //FindTeacher
+        // Home
+        // Help
+        // Back to Teachers DeleteUpdate
+        // Alexander Bennett
+        // T379
+
+        // 2016-08-05 12:00:00 AM
+
+        // 55.35
+
+        // © 2024 - My ASP.NET Application
+
+        // mysql database table
+        // 1
+        // Alexander
+        // Bennett
+        // T379
+        // 2016-08-05 00:00:00
+        // 55.35
+
+    public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        {
+            // Create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            // Open the connection between the web server and database
+            Conn.Open();
+
+            // Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            // SQL QUERY to find teachers by firstname, lastname, hiredate or salary
+            cmd.CommandText = "UPDATE teachers set teacherfname=@TeacherFname, teacherlname=@TeacherLname, employeenumber=@EmployeeNumber, hiredate=@HireDate, salary=@Salary where teacherid=@TeacherId";
+
+            cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", TeacherInfo.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@HireDate", TeacherInfo.HireDate);
+            cmd.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@TeacherId", id);
+
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
 
     }
 }

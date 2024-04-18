@@ -41,8 +41,8 @@ namespace Assignment3.Controllers
         public ActionResult Show(int id)
         {
             TeacherDataController controller = new TeacherDataController();
-            Teacher NewTeacher = controller.FindTeacher(id);
-            return View(NewTeacher);
+            Teacher SelectedTeacher = controller.FindTeacher(id);
+            return View(SelectedTeacher);
         }
 
         //GET : /Teacher/DeleteConfirm/{id}
@@ -140,6 +140,61 @@ namespace Assignment3.Controllers
 
             //redirects to List.chtml
             return RedirectToAction("List");
+        }
+
+        //GET : /Teacher/Update/{id}
+        /// <summary>
+        /// Routes to the update page and shows the current info.
+        /// </summary>
+        /// <param name="id">Id of the teacher</param>
+        /// <returns>Update page containing all the current details of a teacher and asks user to add new details if they want to.</returns>
+        /// <example>GET : /Teacher/Update/{id}</example>
+        public ActionResult Update(int id)
+        {
+            TeacherDataController controller = new TeacherDataController();
+            Teacher SelectedTeacher = controller.FindTeacher(id);
+            return View(SelectedTeacher);
+        }
+
+        //POST : /Teacher/Upadate/{id}
+        /// <summary>
+        /// Recieves a POST request containing info about a teacher with newly entered values. And redirects it to the show page.
+        /// </summary>
+        /// <param name="id">Id of a teavher to update</param>
+        /// <param name="TeacherFname">Updated First name</param>
+        /// <param name="TeacherLname">Updated Last name</param>
+        /// <param name="EmployeeNumber">Updated Employee number</param>
+        /// <param name="HireDate">Updated Hire date</param>
+        /// <param name="Salary">Updated Salary</param>
+        /// <returns>Updated details about the teacher</returns>
+        /// <example>POST : /Teacher/Update/1</example>
+        /// FORM DATA / POST DATA / REQUEST DATA
+        /// {
+        /// "TeacherFname":"Alexander",
+        /// "TeacherLname":"Bennett",
+        /// "EmployeeNumber":"T378",
+        /// "HireDate":"2016-08-05",
+        /// "Salary":"55.30"
+        /// }
+        [HttpPost]
+        public ActionResult Update(int id, string TeacherFname, string TeacherLname, string EmployeeNumber, DateTime? HireDate, Decimal? Salary)
+        {
+            if (String.IsNullOrEmpty(TeacherFname) || String.IsNullOrEmpty(TeacherLname) || String.IsNullOrEmpty(EmployeeNumber) || HireDate == null || Salary == null)
+            {
+                ViewBag.Msg = "Missing Information!!!";
+                return View("New");
+            }
+
+            Teacher TeacherInfo = new Teacher();
+            TeacherInfo.TeacherFname = TeacherFname;
+            TeacherInfo.TeacherLname = TeacherLname;
+            TeacherInfo.EmployeeNumber = EmployeeNumber;
+            TeacherInfo.HireDate = (DateTime)HireDate;
+            TeacherInfo.Salary = Salary ?? 0;
+
+            TeacherDataController controller = new TeacherDataController();
+            controller.UpdateTeacher(id, TeacherInfo);
+            return RedirectToAction("Show/" + id);
         }
     }
 }
